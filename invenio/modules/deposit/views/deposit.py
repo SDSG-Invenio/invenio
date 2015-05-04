@@ -52,7 +52,7 @@ from ..storage import ChunkedDepositionStorage, \
 blueprint = Blueprint(
     'webdeposit',
     __name__,
-    url_prefix='/deposit',
+    url_prefix='',
     template_folder='../templates',
     static_folder='../static'
 )
@@ -73,7 +73,7 @@ def deposition_error_handler(endpoint='.index'):
                 flash(_("Invalid deposition type."), 'danger')
                 return redirect(url_for(endpoint))
             except (DepositionDoesNotExists,):
-                flash(_("Deposition does not exists."), 'danger')
+                flash(_("Deposition does not exist."), 'danger')
                 return redirect(url_for(endpoint))
             except (DepositionNotDeletable,):
                 flash(_("Deposition cannot be deleted."), 'danger')

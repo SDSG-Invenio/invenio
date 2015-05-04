@@ -73,7 +73,7 @@ from invenio.utils.pagination import Pagination
 from invenio.utils.text import slugify
 from invenio.modules.search.registry import facets
 
-blueprint = Blueprint('search', __name__, url_prefix="",
+blueprint = Blueprint('search', __name__, url_prefix="/search",
                       template_folder='../templates',
                       static_url_path='',  # static url path has to be empty
                                            # if url_prefix is empty
