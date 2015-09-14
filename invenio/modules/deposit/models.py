@@ -1387,7 +1387,7 @@ class Deposition(object):
         return obj
 
     @classmethod
-    def get_depositions(cls, user=None, type=None):
+    def get_depositions(cls, user=None, type=None, date_from=None, date_to=None):
         params = [
             Workflow.module_name == 'webdeposit',
         ]
@@ -1399,6 +1399,11 @@ class Deposition(object):
 
         if type:
             params.append(Workflow.name == type.get_identifier())
+
+        if date_from:
+            params.append(BibWorkflowObject.modified > date_from)
+        if date_to:
+            params.append(BibWorkflowObject.modified < date_to)
 
         objects = BibWorkflowObject.query.join("workflow").options(
             db.contains_eager('workflow')).filter(*params).order_by(
