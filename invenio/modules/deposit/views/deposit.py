@@ -408,7 +408,7 @@ def upload_file(deposition_type=None, uuid=None):
 
     df = DepositionFile(backend=backend)
 
-    if df.save(uploaded_file, filename=filename, **kwargs):
+    if df.save(uploaded_file, filename=filename, unique_name=False, **kwargs):
         try:
             deposition.add_file(df)
             deposition.save()
