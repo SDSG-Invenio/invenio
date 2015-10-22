@@ -23,16 +23,19 @@ from invenio.utils.sherpa_romeo import SherpaRomeoSearch
 from invenio.utils.orcid import OrcidSearch
 
 
-def kb_autocomplete(name, mapper=None):
+def kb_autocomplete(name, mapper=None, match_type="s"):
     """Create an autocomplete function from knowledge base.
 
     :param name: Name of knowledge base
     :param mapper: Function that will map an knowledge base entry to
                    autocomplete entry.
     """
-    def inner(dummy_form, dummy_field, term, limit=50):
+    def inner(dummy_form, dummy_field, term, match_type=match_type, limit=50):
         from invenio.modules.knowledge.api import get_kb_mappings
-        result = get_kb_mappings(name, '', term, limit=limit)[:limit]
+        result = get_kb_mappings(name, '', term, match_type=match_type, limit=limit)[:limit]
+        if len(result) < 4:
+            extension = get_kb_mappings(name, '', term, match_type='s', limit=limit)[:limit]
+            result += [x for x in extension if x['id'] not in [y['id'] for y in result]]
         return map(mapper, result) if mapper is not None else result
     return inner
 

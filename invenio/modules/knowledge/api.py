@@ -145,12 +145,16 @@ def get_kb_mappings(kb_name="", key="", value="", match_type="s", sortby="to",
         query = query.filter(models.KnwKB.name == kb_name)
     if len(key) > 0:
         if match_type == "s":
-            key = "%"+key+"%"
+            key = "%" + key + "%"
+        elif match_type == "b":
+            key = key + "%"
     else:
         key = '%'
     if len(value) > 0:
         if match_type == "s":
-            value = "%"+value+"%"
+            value = "%" + value + "%"
+        elif match_type == "b":
+            value = value + "%"
     else:
         value = '%'
     query = query.filter(
