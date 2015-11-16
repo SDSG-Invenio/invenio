@@ -383,7 +383,7 @@ class DepositionType(object):
             return True  # Any authenticated user
         elif action == 'delete':
             if deposition.has_sip():
-                return deposition.type.deletable
+                return True #  deposition.type.deletable
             return True
         elif action == 'reinitialize':
             return deposition.type.editable
@@ -1378,7 +1378,7 @@ class Deposition(object):
         except NoResultFound:
             raise DepositionDoesNotExists(object_id)
 
-        if user and workflow_object.id_user != user.get_id():
+        if user and workflow_object.id_user != user.get_id() and not 'International Atomic Energy Agency (IAEA)' in user.info['group']:
             raise DepositionDoesNotExists(object_id)
 
         obj = cls(workflow_object)
